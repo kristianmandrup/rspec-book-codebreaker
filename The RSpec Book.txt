@@ -27,8 +27,8 @@ User stories are a planning tool
 - be small enough to implement in one iteration
 
 Planning first iteration
-- Acceptance Criteria
-
+- Acceptance Criteria       
+- an example
 Feature: code-breaker starts game
 
   As a code-breaker
@@ -44,5 +44,22 @@ Feature: code-breaker starts game
 Given steps represent the state of the world before an event. 
 When steps represent the event. 
 Then steps represent the expected outcomes.
+              
+Cucumber DRYing
+- Scenario Outlines
 
+Scenario Outline: submit guess
+  Given the secret code is <code>
+  When I guess <guess>
+  Then the mark should be <mark>
+
+The Scenarios keyword indicates that what follows are rows of example
+data.
+
+Scenarios: all colors correct
+| code    | guess   | mark |
+| r g y c | r g y c | bbbb |
+| r g y c | r g c y | bbww |
+| r g y c | y r g c | bwww |
+| r g y c | c r g y | wwww |
 
