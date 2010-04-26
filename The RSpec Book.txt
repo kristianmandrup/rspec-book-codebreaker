@@ -1,0 +1,48 @@
+Behavior Driven Development
+
+Description of BDD
+- domain-driven design
+
+Principles of BDD
+- Enough is enough
+- Deliver stakeholder value
+
+Automated scenarios and acceptance tests
+
+The BDD Cycle
+- red/green/refactor
+
+Planning the First Release
+- selecting stories
+-- Code-breaker starts game
+-- Code-breaker submits guess
+-- Code-breaker wins game
+-- Code-breaker loses game
+-- Code-breaker plays again
+-- Code-breaker saves score
+
+User stories are a planning tool
+- have business value
+- be testable
+- be small enough to implement in one iteration
+
+Planning first iteration
+- Acceptance Criteria
+
+Feature: code-breaker starts game
+
+  As a code-breaker
+  I want to start a game
+  So that I can break the code
+
+  Scenario: start game
+    Given I am not yet playing
+    When I start a new game
+    Then I should see "Welcome to Codebreaker!"
+    And I should see "Enter guess:"
+
+Given steps represent the state of the world before an event. 
+When steps represent the event. 
+Then steps represent the expected outcomes.
+
+
