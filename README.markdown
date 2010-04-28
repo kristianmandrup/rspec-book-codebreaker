@@ -1,27 +1,28 @@
 Behavior Driven Development
 ---------------------------
 
+# Description of BDD
+* domain-driven design
 
-Description of BDD
-- domain-driven design
-
-Principles of BDD
-- Enough is enough
-- Deliver stakeholder value
+# Principles of BDD
+* Enough is enough
+* Deliver stakeholder value
 
 Automated scenarios and acceptance tests
+----------------------------------------
 
-The BDD Cycle
-- red/green/refactor
+# The BDD Cycle
+* red/green/refactor
 
-Planning the First Release
-- selecting stories
--- Code-breaker starts game
--- Code-breaker submits guess
--- Code-breaker wins game
--- Code-breaker loses game
--- Code-breaker plays again
--- Code-breaker saves score
+# Planning the First Release
+
+# selecting stories
+* Code-breaker starts game
+* Code-breaker submits guess
+* Code-breaker wins game
+* Code-breaker loses game
+* Code-breaker plays again
+* Code-breaker saves score
 
 User stories are a planning tool
 - have business value
