@@ -30,10 +30,9 @@ Planning the First Release
 * be small enough to implement in one iteration
 
 #### Planning first iteration
-* Acceptance Criteria       
-* An example
+* Acceptance Criteria..An example
 
-
+`
     Feature: code-breaker starts game
   
     As a code-breaker
@@ -45,6 +44,7 @@ Planning the First Release
         When I start a new game
         Then I should see "Welcome to Codebreaker!"
         And I should see "Enter guess:"
+`
 
 Given steps represent the state of the world before an event. 
 When steps represent the event. 
