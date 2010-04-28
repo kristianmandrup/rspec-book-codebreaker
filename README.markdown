@@ -71,97 +71,104 @@ data.
 
 ### Automating Features with Cucumber
 
-Project structure
-codebreaker
-- bin
-  - codebreaker
-- features
-  - step_definitions(folder)
-  - support
-    - env.rb
-- lib
-  - codebreaker(folder)
-  - codebreaker.rb
-- spec
-  - codebreaker(folder)
-  - spec_helper.rb
+Conventional project structure
+
+    codebreaker
+      - bin
+        - codebreaker
+      - features
+        - step_definitions(folder)
+        - support
+          - env.rb
+      - lib
+        - codebreaker(folder)
+        - codebreaker.rb
+      - spec
+        - codebreaker(folder)
+        - spec_helper.rb
                                                     
 To run a specific feature
-cucumber features/codebreaker_starts_game.feature -s  # s as short
+
+    cucumber features/codebreaker_starts_game.feature -s  # s as short?
         
 You can implement step definitions for undefined steps with these snippets:
 
-Then /^I should see "([^\"]*)"$/ do |arg1|
-  @message.should include(message)
-end
+    Then /^I should see "([^\"]*)"$/ do |arg1|
+      @message.should include(message)
+    end
 
 or, you can put a keyword pending inside the block to indicate that the step
 has not been implemented
 
-Then /^I should see "([^\"]*)"$/ do |arg1|
-  pending
-end
+    Then /^I should see "([^\"]*)"$/ do |arg1|
+      pending
+    end
                                   
 In addition, we don't want to use STDOUT because Cucumber is using STDOUT
 to report results when we run the scenarios. We do want something that
 shares an interface with STDOUT so that the Game object won’t know the
 difference.
 
-=> use StringIO object
+use StringIO object
 
-When /^I start a new game$/ do
-  @messenger = StringIO.new
-  game = Codebreaker::Game.new(@messenger)
-  game.start
-end
+    When /^I start a new game$/ do
+      @messenger = StringIO.new
+      game = Codebreaker::Game.new(@messenger)
+      game.start
+    end
+    
+    Then /^I should see "([^\"]*)" $/ do |message|
+      @messenger.string.split("\n" ).should include(message)
+    end
 
-Then /^I should see "([^\"]*)" $/ do |message|
-  @messenger.string.split("\n" ).should include(message)
-end
-
-=> or use Test Double (write our own)
+or use Test Double (write our own)
 
 A fake object that pretends to be real object is called a Test Double
-# features/step_definitions/codebreaker_steps.rb
+
+    # features/step_definitions/codebreaker_steps.rb
 
 
-## Describing Code with RSpec
+### Describing Code with RSpec
 
 Start to write rspec files 
 
-# spec/codebreaker/game_spec.rb
-module Codebreaker
-  describe Game do
-  end
-end
+    # spec/codebreaker/game_spec.rb
+    module Codebreaker
+      describe Game do
+      end
+    end
 
 The describe() method hooks into RSpec's API, and it returns a Spec::ExampleGroup,
 which is, as it suggests, a group of examples—examples of the expected
 behaviour of an object.
 
-Next step is to connect specs to the code
+### Connect specs to the code
 
-# lib/codebreaker/game.rb
-module Codebreaker
-  class Game
-  end
-end
+Create these files
 
-# lib/codebreaker.rb
-require 'codebreaker/game'
+    # lib/codebreaker/game.rb
+    module Codebreaker
+      class Game
+      end
+    end
+    
+    # lib/codebreaker.rb
+    require 'codebreaker/game'
+    
+    # spec/spec_helper.rb
+    $LOAD_PATH << File.join(File.dirname(__FILE__), "..", "lib")
+    require 'spec'
+    require 'codebreaker'
 
-# spec/spec_helper.rb
-$LOAD_PATH << File.join(File.dirname(__FILE__), "..", "lib")
-require 'spec'
-require 'codebreaker'
+Last, need to require spec_helper.rb inside game_spec.rb
 
-# last, need to require spec_helper.rb inside game_spec.rb
-require File.join(File.dirname(__FILE__), ".." ,"spec_helper" )
-
-module Codebreaker
-  describe Game do
-  end
-end
+    # spec/codebreaker/game_spec.rb
+    require File.join(File.dirname(__FILE__), ".." ,"spec_helper" )
+    
+    module Codebreaker
+      describe Game do
+      end
+    end
   
 next, Connect the features to the code
 To see where we are in relation to our feature, add the lib directory to
