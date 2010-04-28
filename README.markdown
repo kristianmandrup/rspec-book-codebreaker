@@ -30,9 +30,9 @@ Planning the First Release
 * be small enough to implement in one iteration
 
 #### Planning first iteration
-* Acceptance Criteria..An example
+* Acceptance Criteria
 
-
+An example
     Feature: code-breaker starts game
   
     As a code-breaker
