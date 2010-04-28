@@ -1,22 +1,22 @@
 Behavior Driven Development
 ---------------------------
 
-# Description of BDD
+### Description of BDD
 * domain-driven design
 
-# Principles of BDD
+### Principles of BDD
 * Enough is enough
 * Deliver stakeholder value
 
-Automated scenarios and acceptance tests
-----------------------------------------
+### Automated scenarios and acceptance tests
 
-# The BDD Cycle
+#### The BDD Cycle
 * red/green/refactor
 
-# Planning the First Release
+Planning the First Release
+--------------------------
 
-# selecting stories
+### Selecting stories
 * Code-breaker starts game
 * Code-breaker submits guess
 * Code-breaker wins game
@@ -24,26 +24,25 @@ Automated scenarios and acceptance tests
 * Code-breaker plays again
 * Code-breaker saves score
 
-User stories are a planning tool
-- have business value
-- be testable
-- be small enough to implement in one iteration
+### User stories are a planning tool
+* have business value
+* be testable
+* be small enough to implement in one iteration
 
-Planning first iteration
-- Acceptance Criteria       
-- an example     
-
-Feature: code-breaker starts game
-
-  As a code-breaker
-  I want to start a game
-  So that I can break the code
-
-  Scenario: start game
-    Given I am not yet playing
-    When I start a new game
-    Then I should see "Welcome to Codebreaker!"
-    And I should see "Enter guess:"
+#### Planning first iteration
+* Acceptance Criteria       
+* an example
+    Feature: code-breaker starts game
+  
+    As a code-breaker
+    I want to start a game
+    So that I can break the code
+  
+    Scenario: start game
+      Given I am not yet playing
+      When I start a new game
+      Then I should see "Welcome to Codebreaker!"
+      And I should see "Enter guess:"
 
 Given steps represent the state of the world before an event. 
 When steps represent the event. 
