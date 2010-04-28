@@ -40,36 +40,36 @@ An example
     So that I can break the code
   
     Scenario: start game
-        Given I am not yet playing
-        When I start a new game
-        Then I should see "Welcome to Codebreaker!"
-        And I should see "Enter guess:"
+      Given I am not yet playing
+      When I start a new game
+      Then I should see "Welcome to Codebreaker!"
+      And I should see "Enter guess:"
 
 #### Given When Then
 * Given steps represent the state of the world before an event. 
 * When steps represent the event. 
 * Then steps represent the expected outcomes.
               
-Cucumber DRYing
-- Scenario Outlines
+#### Cucumber DRYing
+Scenario Outlines
 
-Scenario Outline: submit guess
-  Given the secret code is <code>
-  When I guess <guess>
-  Then the mark should be <mark>
+    Scenario Outline: submit guess
+      Given the secret code is <code>
+      When I guess <guess>
+      Then the mark should be <mark>
 
 The Scenarios keyword indicates that what follows are rows of example
 data.
 
-Scenarios: all colors correct
-| code    | guess   | mark |
-| r g y c | r g y c | bbbb |
-| r g y c | r g c y | bbww |
-| r g y c | y r g c | bwww |
-| r g y c | c r g y | wwww |
+    Scenarios: all colors correct
+    | code    | guess   | mark |
+    | r g y c | r g y c | bbbb |
+    | r g y c | r g c y | bbww |
+    | r g y c | y r g c | bwww |
+    | r g y c | c r g y | wwww |
 
 
-## Automating Features with Cucumber
+### Automating Features with Cucumber
 
 Project structure
 codebreaker
