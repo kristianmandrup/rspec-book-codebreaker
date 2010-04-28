@@ -10,7 +10,7 @@ Behavior Driven Development
 
 ### Automated scenarios and acceptance tests
 
-#### The BDD Cycle
+### The BDD Cycle
 * red/green/refactor
 
 Planning the First Release
@@ -31,8 +31,8 @@ Planning the First Release
 
 #### Planning first iteration
 * Acceptance Criteria       
-* an example
-    Feature: code-breaker starts game
+* An example
+    `Feature: code-breaker starts game
   
     As a code-breaker
     I want to start a game
@@ -42,7 +42,7 @@ Planning the First Release
       Given I am not yet playing
       When I start a new game
       Then I should see "Welcome to Codebreaker!"
-      And I should see "Enter guess:"
+      And I should see "Enter guess:"`
 
 Given steps represent the state of the world before an event. 
 When steps represent the event. 
