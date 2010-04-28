@@ -1,5 +1,5 @@
 Behavior Driven Development
-===========================
+---------------------------
 
 
 Description of BDD
