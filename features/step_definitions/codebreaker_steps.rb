@@ -1,10 +1,24 @@
-Given /^I am not yet playing$/ do
+class Output
+  def messages
+    @messages ||= []
+  end
+  
+  def puts(message)
+    messages << message
+  end
 end
 
-When /^I start a new game$/ do
-  game = Codebreaker::Game.new
-  @message = game.start
+def output
+  @output ||= Output.new
 end
+
+Given /^I am not yet playing$/ do
+end
+   
+When /^I start a new game$/ do
+  game = Codebreaker::Game.new(output) # using output method
+  game.start
+end      
 
 Then /^I should see "([^\"]*)" $/ do |message|
   @message.should include(message)

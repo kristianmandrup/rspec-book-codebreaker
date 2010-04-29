@@ -1,11 +1,12 @@
 module Codebreaker
   class Game
-    def initialize(messenger)
-      @messenger = messenger
-    end      
-    
+    def initialize(output)
+      @output = output
+    end
+
     def start
-      @messenger.puts "Welcome to Codebreaker!"
+      @output.puts 'Welcome to Codebreaker!'
+      @output.puts 'Enter guess:'
     end
   end
 end

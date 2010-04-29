@@ -290,10 +290,9 @@ So, now this test passed, continue to next.
     end
 
 Running `spec` again would show failing test in red, To fix it,
-however, the following would not work. because will expect exactly what 
+however, we need something more. because will expect exactly what 
 you tell them to expect. 
 
-    # wouldn't work!!
     module Codebreaker
       class Game
         def initialize(output)
