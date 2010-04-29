@@ -1,50 +1,43 @@
 Feature: code-breaker submits guess
 
-  The code-breaker submits a guess of four colored
-  pegs. The game marks the guess with black and
-  white "marker" pegs.
+  The code-breaker submits a guess of four numbers.  The game marks the guess
+  with + and - signs.
 
-  For each peg in the guess that matches the color
-  and position of a peg in the secret code, the
-  mark includes one black peg. For each additional
-  peg in the guess that matches the color but not
-  the position of a peg in the secret code, a
-  white peg is added to the mark.
-  
+  For each number in the guess that matches the number and position of a number
+  in the secret code, the mark includes one +. For each number in the guess
+  that matches the number but not the position of a number in the secret code,
+  a - is added to the mark.
+
   Scenario Outline: submit guess
-    Given the secret code is <code>
-    When I guess <guess>
-    Then the mark should be <mark>
+    Given the secret code is "<code>"
+    When I guess "<guess>"
+    Then the mark should be "<mark>"
 
-  Scenarios: all colors correct
-    | code | guess | mark |
-    | r g y c | r g y c | bbbb |
-    | r g y c | r g c y | bbww |
-    | r g y c | y r g c | bwww |
-    | r g y c | c r g y | wwww |
+    Scenarios: no matches
+      | code | guess | mark |
+      | 1234 | 5678  |      |
 
-  Scenarios: 3 colors correct
-    | code | guess | mark |
-    | r g y c | w g y c | bbb |
-    | r g y c | w r y c | bbw |
-    | r g y c | w r g c | bww |
-    | r g y c | w r g y | www |
+    Scenarios: 1 number correct
+      | code | guess | mark |
+      | 1234 | 1555  | +    |
+      | 1234 | 2555  | -    |
 
-  Scenarios: 2 colors correct
-    | code | guess | mark |
-    | r g y c | w g w c | bb |
-    | r g y c | w r w c | bw |
-    | r g y c | g w c w | ww |
+    Scenarios: 2 numbers correct
+      | code | guess | mark |
+      | 1234 | 5254  | ++   |
+      | 1234 | 5154  | +-   |
+      | 1234 | 2545  | --   |
 
-  Scenarios: 1 color correct
-    | code | guess | mark |
-    | r g y c | r w w w | b |
-    | r g y c | w w r w | w |      
-    
-    
-    
-    
-    
-    
-    
-    
+    Scenarios: 3 numbers correct
+      | code | guess | mark |
+      | 1234 | 5234  | +++  |
+      | 1234 | 5134  | ++-  |
+      | 1234 | 5124  | +--  |
+      | 1234 | 5123  | ---  |
+
+    Scenarios: all numbers correct
+      | code | guess | mark |
+      | 1234 | 1234  | ++++ |
+      | 1234 | 1243  | ++-- |
+      | 1234 | 1423  | +--- |
+      | 1234 | 4321  | ---- |

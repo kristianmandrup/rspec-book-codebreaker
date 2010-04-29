@@ -101,8 +101,8 @@ To run a specific feature
         
 You can implement step definitions for undefined steps with these snippets:
 
-    Then /^I should see "([^\"]*)"$/ do |arg1|
-      @message.should include(message)
+    Then /^I should see "([^\"]*)"$/ do |message|
+      output.messages.should include(message)
     end
 
 or, you can put a keyword pending inside the block to indicate that the step
@@ -128,7 +128,7 @@ Create these files
     require 'codebreaker/game'
     
     # features/support/env.rb:
-    $LOAD_PATH << File.join(File.expand_path('../../../lib', __FILE__)
+    $LOAD_PATH << File.join(File.expand_path('../../../lib', __FILE__))
     require 'codebreaker'
                             
 In addition, we don't want to use STDOUT because Cucumber is using STDOUT
@@ -170,6 +170,10 @@ or build out a message collection object of our own
     When /^I start a new game$/ do
       game = Codebreaker::Game.new(output) # using output method
       game.start
+    end
+    
+    Then /^I should see "([^\"]*)"$/ do |message|
+      output.messages.should include(message)
     end
   
 or just use a Test Double object provided by RSpec, as we'll see later.
@@ -407,18 +411,82 @@ Add a bin/codebreaker file.
     
 Run `chmod 755 bin/codebreaker` and run it. 
 
+### Adding new features
 
+To figure out what our next step is, run
+`cucumber features/codebreaker_submits_guess.feature`
 
+This leads us to more step definitions to be done. Notice we need to
+use @game instead of game here.
 
+    # codebreaker_steps.rb
+    Given /^the secret code is "([^\"]*)" $/ do |secret|
+      @game = Codebreaker::Game.new(output)
+      @game.start(secret)
+    end
 
+Do the following to game.rb so that spec and feature both pass
+    
+    # game.rb
+    def start(secret=nil)
+      @output.puts 'Welcome to Codebreaker!'
+      @output.puts 'Enter guess:'
+    end
 
+At this point the scenarios are either passing or undefined, but none
+are failing, and the specs are passing. Now we can go in and modify the
+specs to pass a secret code to start()
 
+    require 'spec_helper'
 
+    module Codebreaker
+      describe Game do
+        describe "#start" do
+          let(:output) { double('output').as_null_object }
+          let(:game)   { Game.new(output) }
+          it "sends a welcome message" do
+            output.should_receive(:puts).with('Welcome to Codebreaker!')
+            game.start('1234')
+          end
+    
+          it "prompts for the first guess" do
+            output.should_receive(:puts).with('Enter guess:')
+            game.start('1234')
+          end
+        end
+      end
+    end
+    
+Now, we can modify game.rb again to remove =nil default
 
+    # game.rb
+    def start(secret)
+      @output.puts 'Welcome to Codebreaker!'
+      @output.puts 'Enter guess:'
+    end
 
+Changes may have impact on other features, we need to account for it!
+run `cucumber` with no args to run all features, leads us to make the 
+following change to steps file.
 
+    When /^I start a new game$/ do
+      game = Codebreaker::Game.new(output)
+      game.start('1234')
+    end
+    
+run `cucumber` again, and continue from the snippet output by it.
 
+    When /^I guess "([^\"]*)"$/ do |guess|
+      @game.guess(guess)
+    end
 
+Following suggestions by the output, we write down the following step:
+
+    Then /^the mark should be "([^\"]*)" $/ do |mark|
+      output.messages.should include(mark)
+    end
+    
+### Specifying an algorithm to the game
 
 
 
