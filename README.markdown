@@ -3,7 +3,7 @@ Behavior Driven Development
 
 ### Description of BDD
 
-* domain-driven design
+* Domain-driven design
 
 ### Principles of BDD
 
@@ -14,7 +14,7 @@ Behavior Driven Development
 
 ### The BDD Cycle
 
-* red/green/refactor
+* Red/Green/Refactor
 
 Planning the First Release
 --------------------------
@@ -30,9 +30,9 @@ Planning the First Release
 
 ### User stories are a planning tool
 
-* have business value
-* be testable
-* be small enough to implement in one iteration
+* Have business value
+* Be testable
+* Be small enough to implement in one iteration
 
 #### Planning first iteration
 
