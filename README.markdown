@@ -488,6 +488,217 @@ Following suggestions by the output, we write down the following step:
     
 ### Specifying an algorithm to the game
 
+**Now go into details to implement the algorithm, we start with spec, and
+always begin with the simplest example** 
 
+Now, We moved the let() statements up a block so they are in scope in 
+the new example.
 
+    require 'spec_helper'
+    
+    module Codebreaker
+      describe Game do
+        let(:output) { double('output').as_null_object }
+        let(:game)   { Game.new(output) }
+    
+        describe "#start" do
+          it "sends a welcome message" do
+            output.should_receive(:puts).with('Welcome to Codebreaker!')
+            game.start('1234')
+          end
+    
+          it "prompts for the first guess" do
+            output.should_receive(:puts).with('Enter guess:')
+            game.start('1234')
+          end
+        end
+    
+        # newly added
+        describe "#guess" do
+          context "with no matches" do
+            it "sends a mark with ''" do
+              game.start('1234')
+              output.should_receive(:puts).with('')
+              game.guess('5555')
+            end
+          end
+        end
+      end
+    end
 
+Run `spec spec --color` now and fix the red failing example
+    
+    # game.rb
+    def guess(guess)
+      @output.puts ''
+    end
+
+#### Follow up with the next simplest example
+    
+    # game_spec.rb
+    # ... code omitted
+    context "with 1 number match" do
+      it "sends a mark with '-'" do
+        game.start('1234')
+        output.should_receive(:puts).with('-')
+        game.guess('2555')
+      end
+    end
+
+Run `spec spec --color` now and fix the red failing example
+      
+    module Codebreaker
+      class Game
+        def initialize(output)
+          @output = output
+        end
+    
+        def start(secret)
+          @secret = secret
+          @output.puts 'Welcome to Codebreaker!'
+          @output.puts 'Enter guess:'
+        end
+    
+        def guess(guess)
+          if @secret.include?(guess[0])
+            mark = '-'
+          else
+            mark = ''
+          end
+          @output.puts mark
+        end
+      end
+    end 
+    
+Now, all tests will pass, only because we used index 0, we could
+add more examples by changing index value. But, lets do a different
+spec now.
+    
+    # game_spec.rb
+    context "with 1 exact match" do
+      it "sends a mark with '+'" do
+        game.start('1234')
+        output.should_receive(:puts).with('+')
+        game.guess('1555')
+      end
+    end
+    
+Run `spec spec --color` now and fix the red failing example
+        
+    def guess(guess)
+      if guess[0] == @secret[0]
+        mark = '+'
+      elsif @secret.include?(guess[0])
+        mark = '-'
+      else
+        mark = ''
+      end
+      @output.puts mark
+    end
+    
+What follows are more refactoring and gradually adding complexity to
+the algorithm by more spec tests, more small steps and iterations...
+
+    require 'spec_helper'
+    
+    module Codebreaker
+      describe Game do
+        let(:output) { double('output').as_null_object }
+        let(:game)   { Game.new(output) }
+    
+        describe "#start" do
+          it "sends a welcome message" do
+            output.should_receive(:puts).with('Welcome to Codebreaker!')
+            game.start('1234')
+          end
+    
+          it "prompts for the first guess" do
+            output.should_receive(:puts).with('Enter guess:')
+            game.start('1234')
+          end
+        end
+    
+        describe "#guess" do
+          context "with no matches" do
+            it "sends a mark with ''" do
+              game.start('1234')
+              output.should_receive(:puts).with('')
+              game.guess('5555')
+            end
+          end
+    
+          context "with 1 number match" do
+            it "sends a mark with '-'" do
+              game.start('1234')
+              output.should_receive(:puts).with('-')
+              game.guess('2555')
+            end
+          end
+    
+          context "with 1 exact match" do
+            it "sends a mark with '+'" do
+              game.start('1234')
+              output.should_receive(:puts).with('+')
+              game.guess('1555')
+            end
+          end
+    
+          context "with 2 number matches" do
+            it "sends a mark with '--'" do
+              game.start('1234')
+              output.should_receive(:puts).with('--')
+              game.guess('2355')
+            end
+          end
+    
+          context "with 1 number match and 1 exact match (in that order)" do
+            it "sends a mark with '+-'" do
+              game.start('1234')
+              output.should_receive(:puts).with('+-')
+              game.guess('2535')
+            end
+          end
+        end
+      end
+    end
+    
+And the corresponding game.rb:
+
+    module Codebreaker
+      class Game
+        def initialize(output)
+          @output = output
+        end
+    
+        def start(secret)
+          @secret = secret
+          @output.puts 'Welcome to Codebreaker!'
+          @output.puts 'Enter guess:'
+        end
+    
+        def guess(guess)
+          mark = ''
+          (0..3).each do |index|
+            if exact_match?(guess, index)
+              mark << '+'
+            end
+          end
+          (0..3).each do |index|
+            if number_match?(guess, index)
+              mark << '-'
+            end
+          end
+          @output.puts mark
+        end
+    
+        def exact_match?(guess, index)
+          guess[index] == @secret[index]
+        end
+    
+        def number_match?(guess, index)
+          @secret.include?(guess[index]) && !exact_match?(guess, index)
+        end
+      end
+    end
+    
+    
